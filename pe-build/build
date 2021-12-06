@@ -1,0 +1,18 @@
+source="libbpf"
+version=0.6.0-pe-1
+dependencies=(
+  'libelf' 'libelf-dev'
+  'zlib' 'zlib-dev'
+)
+
+build() {
+  make -C src PREFIX="${prefix}" LIBSUBDIR=lib
+}
+
+install() {
+  # libbpf
+  make -C src PREFIX="${prefix}" DESTDIR="${dest_dir}" LIBSUBDIR=lib install install_headers
+
+  # kernel headers
+  cp -a kernel-headers/. "${dest_dir}/${prefix}"
+}
